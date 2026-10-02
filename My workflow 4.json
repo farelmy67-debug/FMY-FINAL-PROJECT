@@ -1,0 +1,465 @@
+{
+  "name": "My workflow 4",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "TAGIHAN PERUSAHAAN",
+        "formDescription": "Pemberitahuan Deadline dan Nominal Tagihan Perusahaan",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "nama_perusahaan"
+            },
+            {
+              "fieldLabel": "jumlah_tagihan",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "no_invoice"
+            },
+            {
+              "fieldLabel": "keterangan"
+            },
+            {
+              "fieldLabel": "deadline_tagihan",
+              "fieldType": "date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        -272,
+        -96
+      ],
+      "id": "cfbee447-8734-4b56-a291-51135c195aa7",
+      "name": "On form submission",
+      "webhookId": "8a85565c-af80-4418-a5ef-3054e7621cfb"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f0924e60-459e-46c5-87de-981ad5b62178",
+              "leftValue": "={{ $json.jumlah_tagihan }}",
+              "rightValue": 2000000000,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        192,
+        -96
+      ],
+      "id": "af9de757-b0f9-4090-8b81-49e497f793bc",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "fazelzariel4@gmail.com",
+        "subject": "=tagihan invoice pemnbayaran :  {{ $('data_deadline_tagihan').item.json.nama_perusahaan }}",
+        "emailType": "text",
+        "message": "=Dear Manager Keuangan, berikut tagihan dari perusahaan : {{ $('data_deadline_tagihan').item.json.nama_perusahaan }}, jumlah : {{ $('data_deadline_tagihan').item.json.jumlah_tagihan }}, no invoice : {{ $('data_deadline_tagihan').item.json.no_invocie }}, keteragan : {{ $('data_deadline_tagihan').item.json['keterangan '] }}, deadline tagihan : {{ $('On form submission').item.json.deadline_tagihan }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        -16
+      ],
+      "id": "dd5fa998-8b4f-4010-b21a-6db096b80ca4",
+      "name": "Manager Keuangan",
+      "webhookId": "9a73a4ca-45a3-434a-b332-0fbe349fcb7f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "UtFe0PzhUnZOQJ1s",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "farelmy67@gmail.com",
+        "subject": "Konfirmasi Tagihan Perusahaan",
+        "message": "=dear Pak Direktur, berikut adalah approval tanggihan :\n\nperusahaan : {{ $('data_deadline_tagihan').item.json.nama_perusahaan }}\n\nsebesar : Rp.{{ $json.jumlah_tagihan }}\n\nno.invoice : {{ $json.no_invocie }}\n\nketerangan : {{ $json['keterangan '] }}\n\ndeadline : {{ $json.deadline_tagihan }}",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        -176
+      ],
+      "id": "4bd1210d-870c-4ffc-828e-f229453960d4",
+      "name": "Direktur",
+      "webhookId": "aef892a0-27f9-4485-a398-c61aa6a61c7e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "UtFe0PzhUnZOQJ1s",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1maBSvrlKb4zNFpKYXwMDYciBY6-EjHt1InixC7MnpvU",
+          "mode": "list",
+          "cachedResultName": "data_deadline_tagihan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1maBSvrlKb4zNFpKYXwMDYciBY6-EjHt1InixC7MnpvU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1maBSvrlKb4zNFpKYXwMDYciBY6-EjHt1InixC7MnpvU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nama_perusahaan": "={{ $json.nama_perusahaan }}",
+            "jumlah_tagihan": "={{ $json.jumlah_tagihan }}",
+            "no_invocie": "={{ $json.no_invoice }}",
+            "keterangan ": "={{ $json.keterangan }}",
+            "deadline_tagihan": "={{ $json.deadline_tagihan }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nama_perusahaan",
+              "displayName": "nama_perusahaan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "jumlah_tagihan",
+              "displayName": "jumlah_tagihan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "no_invocie",
+              "displayName": "no_invocie",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keterangan ",
+              "displayName": "keterangan ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "deadline_tagihan",
+              "displayName": "deadline_tagihan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approval",
+              "displayName": "approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -16,
+        -96
+      ],
+      "id": "2ce015be-0b78-4801-9bb7-a0eb5bd914b0",
+      "name": "data_deadline_tagihan",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "l1uK71Btn2WjBUfI",
+          "name": "Google Sheets account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1maBSvrlKb4zNFpKYXwMDYciBY6-EjHt1InixC7MnpvU",
+          "mode": "list",
+          "cachedResultName": "data_deadline_tagihan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1maBSvrlKb4zNFpKYXwMDYciBY6-EjHt1InixC7MnpvU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1maBSvrlKb4zNFpKYXwMDYciBY6-EjHt1InixC7MnpvU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "approval": "={{ $json.data.approved }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nama_perusahaan",
+              "displayName": "nama_perusahaan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "jumlah_tagihan",
+              "displayName": "jumlah_tagihan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "no_invocie",
+              "displayName": "no_invocie",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keterangan ",
+              "displayName": "keterangan ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "deadline_tagihan",
+              "displayName": "deadline_tagihan",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approval",
+              "displayName": "approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        928,
+        -176
+      ],
+      "id": "0f2de085-cc94-4d50-9cf8-c69b58e67890",
+      "name": "data_deadline_tagihan1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "l1uK71Btn2WjBUfI",
+          "name": "Google Sheets account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "32f54d21-95e7-4738-bc19-6370cf2fadb9",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        672,
+        -176
+      ],
+      "id": "11d73aed-f77e-4c2b-8a71-339bc64ac87d",
+      "name": "APPROVAL OR NOT"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "data_deadline_tagihan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Direktur",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Manager Keuangan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manager Keuangan": {
+      "main": [
+        []
+      ]
+    },
+    "Direktur": {
+      "main": [
+        [
+          {
+            "node": "APPROVAL OR NOT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "data_deadline_tagihan": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "data_deadline_tagihan1": {
+      "main": [
+        [
+          {
+            "node": "Manager Keuangan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APPROVAL OR NOT": {
+      "main": [
+        [
+          {
+            "node": "data_deadline_tagihan1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "data_deadline_tagihan1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "2f3fccfb-322a-4e31-9e57-de2b28e01be4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "41de0f6aedb084a8c33ab961f5729e237e76544fc5692fabad00dd24bfc17a41"
+  },
+  "nodeGroups": [],
+  "id": "ZrvWOzmVqONHQJPQ",
+  "tags": []
+}
