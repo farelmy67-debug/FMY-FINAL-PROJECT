@@ -1,18 +1,11 @@
-Penyesuaian dokumen `README.md` dilakukan dengan mengambil referensi dari struktur [Pencatatan_Pengeluaran_Presales_Otomatis-Final-Project/README.md](https://github.com/diardhan/Pencatatan_Pengeluaran_Presales_Otomatis-Final-Project/blob/main/README.md) milik Shergy Diardhan tanpa menghilangkan detail teknis penting dari project kamu (`Automated QC & Inventory Reporting System`).
-
-Format ini mengadopsi gaya penyajian yang lebih interaktif, menambahkan ikon visual (emoji), menyederhanakan penjelasan alur kerja agar lebih nyaman dibaca di GitHub, serta menambahkan ringkasan panduan *prasyarat kredensial*.
-
-Berikut adalah hasil penyesuaian `README.md` milikmu:
-
-```markdown
-# 🤖 Automated QC & Inventory Reporting System (n8n)
+# Automated QC & Inventory Reporting System (n8n)
 
 *Final Project - PPKD Jakarta Barat AI Bootcamp (PPKD AIAE x Hacktiv8)*  
 *Author:* Farel Maulana Yusuf
 
 ---
 
-## 📖 Deskripsi Proyek
+## Deskripsi Proyek
 
 Proyek ini adalah sebuah sistem otomatisasi alur kerja (*workflow*) berbasis AI yang dibangun menggunakan **n8n**. Sistem ini dirancang untuk mengubah laporan inventaris gudang yang diketik manual menjadi data terstruktur yang **diverifikasi AI berdasarkan foto bukti**, dikategorikan secara otomatis, dicatat ke Google Sheets, dan dirangkum lewat email berwarna sesuai dengan tingkat risiko.
 
@@ -20,7 +13,7 @@ Petugas hanya perlu mengisi **nama barang dan jumlah** serta mengunggah foto buk
 
 ---
 
-## 🎯 Latar Belakang Masalah
+## Latar Belakang Masalah
 
 Pelaporan barang di gudang atau kantor umumnya dilakukan dengan mengetik daftar bebas secara manual. Dari pola kerja ini, muncul empat masalah utama:
 
